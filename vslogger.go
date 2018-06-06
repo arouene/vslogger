@@ -24,23 +24,16 @@ type Logger struct {
 type LogLevel uint
 
 const (
-        LogDebug   LogLevel = 1
-        LogError   LogLevel = 2
-        LogWarning LogLevel = 3
-        LogInfo    LogLevel = 4
+        LogError   LogLevel = 1
+        LogWarning LogLevel = 2
+        LogInfo    LogLevel = 3
+        LogDebug   LogLevel = 4
 )
 
 func New(level LogLevel, out io.Writer, prefix string, flag int) *Logger {
         return &Logger{
                 log: log.New(out, prefix, flag),
                 level: level }
-}
-
-func (l *Logger) Debug(v ...interface{}) {
-        if l.level >= LogDebug {
-                v = append([]interface{}{"[D]"}, v...)
-                l.log.Output(2, fmt.Sprintln(v...))
-        }
 }
 
 func (l *Logger) Error(v ...interface{}) {
@@ -60,6 +53,13 @@ func (l *Logger) Warning(v ...interface{}) {
 func (l *Logger) Info(v ...interface{}) {
         if l.level >= LogInfo {
                 v = append([]interface{}{"[I]"}, v...)
+                l.log.Output(2, fmt.Sprintln(v...))
+        }
+}
+
+func (l *Logger) Debug(v ...interface{}) {
+        if l.level >= LogDebug {
+                v = append([]interface{}{"[D]"}, v...)
                 l.log.Output(2, fmt.Sprintln(v...))
         }
 }
